@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var courseRoutes = require('./courses');
+
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.use('/courses', courseRoutes);
 
 module.exports = router;
