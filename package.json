@@ -16,9 +16,7 @@
     "mariadb": "^2.4.2",
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
-    "mysql2": "^2.1.0",
-    "pug": "^2.0.0-beta11",
-    "sequelize": "^6.3.5",
-    "sequelize-cli": "^6.2.0"
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.3"
   }
 }
