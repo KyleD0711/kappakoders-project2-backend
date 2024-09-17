@@ -1,11 +1,9 @@
-module.exports = (app) => {
-  var express = require("express");
-  var router = express.Router();
+var express = require('express');
+var router = express.Router();
+var courseRoutes = require('./courses');
 
-  router.get("/", () => {
-    console.log("Return some resource");
-  });
-  router.get("/", function (req, res, next) {
-    res.render("index", { title: "Express" });
-  });
-};
+
+/* GET home page. */
+router.use('/courses', courseRoutes);
+
+module.exports = router;
