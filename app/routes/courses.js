@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var coursesController = require('../controllers/courses.controller')
+
 
 const dummyJson = {
   "courses": [
@@ -63,18 +65,9 @@ const dummyJson = {
 
 
 /* GET all courses */
-router.get('/', function(req, res, next) {
-  res.send(dummyJson);
-});
+router.get('/', coursesController.findAll);
 
 /* GET course by ID */
-router.get('/:id', function(req, res, next) {
-  const course = dummyJson["courses"].find((course) => course.id == req.params.id)
-  if(course){
-    res.send(course);
-  } else {
-    res.status(404).send()
-  }
-});
+router.get('/:id', coursesController.findOne);
 
 module.exports = router;
