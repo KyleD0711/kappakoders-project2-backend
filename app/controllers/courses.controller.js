@@ -5,12 +5,59 @@ const Op = db.Sequelize.Op;
 
 // Retrieve all Lessons from the database.
 exports.findAll = (req, res) => {
-  let {page, perPage} = req.query
+  let {page, perPage, searchString, searchColumn, sortColumn, sortOrder} = req.query
+
+  let whereCondition = {};
+  const order = [];
+
+  const coursesAttributes = Object.keys(Courses.rawAttributes) // get list of columns
 
   page = page || 0
   perPage = parseInt(perPage) || 100
+  sortOrder = sortOrder || 'ASC'
 
-  Courses.findAll({ offset: page * perPage, limit: perPage })
+  if(sortColumn && !coursesAttributes.includes(sortColumn)){
+    return res.status(400).send({message: `invalid sort column '${sortColumn}'`})
+  } else if (sortColumn) {
+    order.push([sortColumn, sortOrder.toUpperCase()]);
+  }
+
+  if(searchString) {
+    if (searchColumn && Array.isArray(searchColumn)) {
+      searchColumn.forEach((column) => {
+        if(!coursesAttributes.includes(searchColumn)) {
+          return res.status(400).send({message: `invalid search column '${column}'`})
+        }
+      })
+      whereCondition[Op.or] = searchColumn.map((column) => ({
+        [column]: {
+          [Op.like]: `%${searchString}%`
+        }
+      }));
+    } else if (searchColumn) {
+      if(!coursesAttributes.includes(searchColumn)) {
+        return res.status(400).send({message: `invalid search column '${searchColumn}'`})
+      }
+      whereCondition[Op.or] = {
+        [searchColumn]: {
+          [Op.like]: `%${searchString}%`
+        }
+      }
+    } else {
+      whereCondition[Op.or] = {
+        name: {
+          [Op.like]: `%${searchString}%`
+        }
+      }
+    } 
+  }
+
+  Courses.findAll({ 
+    where: whereCondition,
+    offset: page * perPage, 
+    limit: perPage,
+    order
+  })
     .then((data) => {
       res.send(data);
     })
