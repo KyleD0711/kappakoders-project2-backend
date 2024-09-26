@@ -27,6 +27,10 @@ jobs:
           REMOTE_HOST: "project2.eaglesoftwareteam.com"
           REMOTE_USER: ubuntu
           TARGET: "nodeapps/2024/project2/t1"
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_PW: ${{ secrets.DB_PW }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_NAME: ${{ secrets.DB_NAME }}
       - name: Execute SSH commmands on remote server
         uses: JimCronqvist/action-ssh@master
         env:
