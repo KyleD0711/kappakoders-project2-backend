@@ -1,6 +1,7 @@
 var createError = require("http-errors");
 var express = require("express");
 var cors = require("cors");
+require("dotenv").config();
 //var path = require('path');
 // var cookieParser = require('cookie-parser');
 // var logger = require('morgan');
@@ -11,7 +12,6 @@ var app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 const db = require("./app/models");
 
 db.sequelize.sync();
