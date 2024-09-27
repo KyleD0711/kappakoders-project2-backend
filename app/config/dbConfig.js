@@ -1,7 +1,7 @@
 module.exports = {
   HOST: "localhost",
   USER: "root",
-  PASSWORD: "LouTRoeE5NbBjUopJ0mx",
+  PASSWORD: "",
   DB: "course",
   dialect: "mariadb",
   dialectOptions: {

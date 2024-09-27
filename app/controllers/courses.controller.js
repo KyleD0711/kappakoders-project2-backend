@@ -56,7 +56,7 @@ exports.findAll = async (req, res) => {
     } 
   }
 
-  const courseCount = await Courses.count();
+  const courseCount = await Courses.count({where: whereCondition});
 
   Courses.findAll({ 
     where: whereCondition,
