@@ -34,7 +34,9 @@ exports.create = async (req, res) => {
 };
 
 
-exports.findAll = (req, res) => {
+
+// Retrieve all Lessons from the database.
+exports.findAll = async (req, res) => {
   let {page, perPage, searchString, searchColumn, sortColumn, sortOrder} = req.query
 
   let whereCondition = {};
@@ -42,9 +44,13 @@ exports.findAll = (req, res) => {
 
   const coursesAttributes = Object.keys(Courses.rawAttributes) // get list of columns
 
-  page = page || 0
+  page = Number.parseInt(page) - 1 || 0
   perPage = parseInt(perPage) || 100
   sortOrder = sortOrder || 'ASC'
+
+  if(page < 0){
+    return res.status(400).send({message: "page has to be greater than 0"})
+  }
 
   if(sortColumn && !coursesAttributes.includes(sortColumn)){
     return res.status(400).send({message: `invalid sort column '${sortColumn}'`})
@@ -82,6 +88,8 @@ exports.findAll = (req, res) => {
     } 
   }
 
+  const courseCount = await Courses.count({where: whereCondition});
+
   Courses.findAll({ 
     where: whereCondition,
     offset: page * perPage, 
@@ -89,7 +97,13 @@ exports.findAll = (req, res) => {
     order
   })
     .then((data) => {
-      res.send(data);
+      const responseData = {
+        courses: data,
+        page: page + 1,
+        perPage,
+        count: courseCount
+      }
+      res.send(responseData);
     })
     .catch((err) => {
       res.status(500).send({
