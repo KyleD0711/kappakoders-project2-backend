@@ -2,6 +2,38 @@ const db = require("../models");
 const Courses = db.courses;
 const Op = db.Sequelize.Op;
 
+exports.create = async (req, res) => {
+  try {
+    const { dept, courseNumber, level, hours, name, description } = req.body;
+
+    if (!dept || !courseNumber || !level || !hours || !name) {
+      return res.status(400).send({
+        message: "All required fields (dept, courseNumber, level, hours, name) must be filled",
+      });
+    }
+
+    // Create course object
+    const course = {
+      dept,
+      courseNumber,
+      level,
+      hours,
+      name,
+      description: description || "", // Optional field
+    };
+
+    // Save course in the database
+    const data = await Courses.create(course);
+    res.status(201).send(data);
+
+  } catch (err) {
+    res.status(500).send({
+      message: err.message || "Some error occurred while creating the course.",
+    });
+  }
+};
+
+
 
 // Retrieve all Lessons from the database.
 exports.findAll = async (req, res) => {

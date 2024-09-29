@@ -4,6 +4,9 @@ var router = express.Router();
 var coursesController = require('../controllers/courses.controller')
 
 
+/* Create Course */
+router.post('/', coursesController.create)
+
 /* GET all courses */
 router.get('/', coursesController.findAll);
 
