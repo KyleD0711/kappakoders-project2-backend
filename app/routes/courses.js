@@ -13,6 +13,8 @@ router.get('/', coursesController.findAll);
 /* GET course by ID */
 router.get('/:id', coursesController.findOne);
 
+router.delete('/:id', coursesController.delete);
+
 router.put('/:id', coursesController.update);
 
 module.exports = router;
