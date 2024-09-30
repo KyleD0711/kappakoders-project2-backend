@@ -13,4 +13,6 @@ router.get('/', coursesController.findAll);
 /* GET course by ID */
 router.get('/:id', coursesController.findOne);
 
+router.put('/:id', coursesController.update);
+
 module.exports = router;

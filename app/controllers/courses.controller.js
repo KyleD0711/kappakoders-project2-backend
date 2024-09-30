@@ -131,3 +131,28 @@ exports.findOne = (req, res) => {
       });
     });
 };
+
+exports.update = (req, res) => {
+
+  const id = req.params.id
+
+  Courses.update(req.body, {
+    where: {id: id}
+  }).then((num) => {
+    console.log(num);
+    if(num ==1){
+        res.send({
+            message: "Course was successfully updated",
+        });
+    } else{
+        res.send({
+            message: `Cannot update course with courseNumber=${id}. It may be that this course does not exist or req.body is empty`,
+        });
+    }
+})
+.catch((err) => {
+    res.status(500).send({
+        message: "error updating course with id = " + id
+    });
+});
+}
