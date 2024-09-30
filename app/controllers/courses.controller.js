@@ -131,3 +131,25 @@ exports.findOne = (req, res) => {
       });
     });
 };
+
+exports.delete = (req, res) => {
+  const { id } = req.params;
+
+  Courses.destroy({
+    where: { id: id },
+  })
+    .then((result) => {
+      if (result === 1) {
+        res.send({ message: "Course was deleted successfully." });
+      } else {
+        res.status(404).send({
+          message: `Cannot delete course with id=${id}. Course not found.`,
+        });
+      }
+    })
+    .catch(() => {
+      res.status(500).send({
+        message: "Error deleting Course with id=" + id,
+      });
+    });
+};
