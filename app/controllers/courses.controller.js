@@ -155,7 +155,7 @@ exports.update = (req, res) => {
         message: "error updating course with id = " + id
     });
 });
-}
+};
 
 exports.delete = (req, res) => {
   const { id } = req.params;
