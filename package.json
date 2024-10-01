@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node server.js",
-    "bundle": "mkdir deploy && cp -r app server.js package.json package-lock.json course-t1-backend.service deploy"
+    "bundle": "mkdir deploy && cp -r .env app server.js package.json package-lock.json course-t1-backend.service deploy"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
